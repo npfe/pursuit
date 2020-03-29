@@ -9,7 +9,7 @@ from pprint import pprint
 
 status = {1:'not_started', 2:'hold', 3:'track', 4:'done'}
 
-# ---- example index page ----
+# ---- index page ----
 def index():
     level = 1
     archive = list()
@@ -22,27 +22,27 @@ def index():
         entry['children'] = db(db.entry.parent == entry['id']).count()
         # adds the quantity of each subitems category for progress bar
         entry['not_started'], entry['hold'], entry['track'], entry['done'], entry['sum_w'] = get_w_progress(entry['name'], entry)
-    # creates entry list containing ids of each entry
+    # creates a list containing ids of each entry
     entries_id = [entry['id'] for entry in entries_list]
     next_id = list()            # placeholder for ids to be pushed into the loop
     # recursively populates the list
     for i, id in enumerate(entries_id):
         children = db(db.entry.parent == id).select().as_list()
         for child in children:
-            # finds index in entries_list where to insert the children
+            # finds the position in entries_list where to insert child
             index = next((index for (index, d) in enumerate(entries_list) if d['id']==child['parent']), None)
             # position index to 1 after position of the parent
             index+=1
-            # append id of current child in the loop
+            # append id of current child in the loop to the next list
             next_id.append(child['id'])
             # sets the entry
             child['level'] = level
             child['children'] = db(db.entry.parent == child['id']).count()
             log = db(db.journal.parent == child['id']).select().last()
-            child['log'] = log.body[:75]+'...' if log != None else ''
-            if log != None:
-                last = get_status(log.created_on)
-                child['last'] = last
+            # adds last log and last edit date
+            if log != None :
+                child['log'] = log.body[:75]+'...' if len(log.body) > 75 else log.body
+                child['last'] = get_status(log.created_on)
             # skips items that are done or insert them in the final structure
             if child['status'] != 4:
                 entries_list.insert(index,child)

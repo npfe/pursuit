@@ -135,11 +135,16 @@ def item():
 
 def new_item():
     parent = request.args(0)
+    if parent == 0:
+        parent = None
     db.entry.parent.default = parent
     form = SQLFORM(db.entry)
+    form.vars.parent = parent
     if form.process(session=None, formname='_newitem').accepted:
         response.js =  "location.reload();"
         response.flash=('Log inserted')
+    else:
+        print(form.vars)
 
     return locals()
 

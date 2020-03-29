@@ -1,9 +1,19 @@
 {{extend 'layout.html'}}
+<div class="row">
+  <div class="col">
+    <!-- new items button -->
+    <button class="btn btn-primary pull-right"  onclick="newItem()" type="submit">New Top Item</button>
+  </div>
+</div>
 
 <div class="row">
   <div class="col">
     <!-- accordion class collapse page -->
     <ul class="list-group list-group-flush ">
+      <!-- message in case no items are present -->
+      {{if len(data) == 0:}}
+        <h4>No items in the database<h4>
+      {{pass}}
       <!-- items which have no parents -->
       {{for item in data:}}
         {{if item['level'] == 0:}}
@@ -54,8 +64,10 @@
     </ul>
   </div>
 </div>
-
-<h3 class="topic">Completed tasks</h3>
+<!-- if items, displays completed items header-->
+{{if len(archive)!= 0:}}
+  <h3 class="topic">Completed tasks</h3>
+{{pass}}
 {{for item in archive:}}
   <div  id="{{=item['id']}}" class="{{=item['level']}}  show item item-hover  {{='index_%s' % (status[item['status']]) }}" >
     <div class="row archive archive-hover">
@@ -162,9 +174,11 @@
 
     // modal form show and pre-fill
     function newItem(id) {
+      // to create items without parents
+      if (id == undefined) {id = null;}
       // sets the new item parent field
       $('#new_item_parent')[0].value = id; // defined in "new_item.load"
-      $('#formModal').modal('toggle')
+      $('#formModal').modal('toggle');
     }
 
 

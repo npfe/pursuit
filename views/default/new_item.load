@@ -4,6 +4,6 @@
   <input type="text" class="form-control" name="name" id="entry_name"/>
   <input type="submit" class="btn btn-primary float-right item-comment-submit"/>
   <input type="hidden" name="_formname" value="_newitem" />
-  <input type="hidden" name="parent" id="new_item_parent" value="z"/>
+  <input type="hidden" name="parent" id="new_item_parent" value=""/>
   <input type="hidden" name="status" value="1"/>
 </form>

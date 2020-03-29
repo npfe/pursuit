@@ -1,0 +1,20 @@
+{{for log in logs:}}
+  <div class="card journal">
+    <div class="card-body">
+      <button type="button" onclick="delLog({{='%s,%s' % (log.id, '\"log_journal\"')}})" class="close" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <p class="card-text">{{=log.body}}</p>
+      <p class="card-text "><small class="text-muted">{{=I(log.created_on)}}</small></p>
+    </div>
+
+  </div>
+{{pass}}
+
+
+<script type="text/javascript">
+  // delete functions
+  function delLog(id, target){
+    $.get( "{{=URL('default', 'log_delete')}}/"+id+"/"+target);
+  }
+</script>

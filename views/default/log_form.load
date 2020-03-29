@@ -1,0 +1,6 @@
+<form enctype="multipart/form-data" method="post">
+  <textarea class="form-control item-comment" name="body" id="journal_body" rows="10" cols="30"/>
+  <input type="submit" class="btn btn-primary float-right item-comment-submit"/>
+  <input type="hidden" name="_formname" value="_newlog" />
+  <input type="hidden" name="created_on" value="{{=request.now}}" />
+</form>

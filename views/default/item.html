@@ -1,0 +1,47 @@
+{{extend 'layout.html'}}
+<div class="container">
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="card {{='card_%s' % (status[record.status]) }}">
+        <div class="card-body">
+          <h5 class="card-title">{{=record.name}}</h5>
+          <p class="card-text">
+            <span class="dot {{=status[record.status]}}"></span>
+            {{=status[record.status].replace('_', ' ').title()}}
+          </p>
+          <!--Status button -->
+          <div class="btn-group">
+            <button type="button" class="btn btn-primary">Status</button>
+            <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="{{=URL('default', 'set_status', args=[record.id,1])}}">Not Started</a>
+              <a class="dropdown-item" href="{{=URL('default', 'set_status', args=[record.id,2])}}">Action needed</a>
+              <a class="dropdown-item" href="{{=URL('default', 'set_status', args=[record.id,3])}}">On Track</a>
+              <a class="dropdown-item" href="{{=URL('default', 'set_status', args=[record.id,4])}}">Done</a>
+            </div>
+          </div>
+          <!-- edit button -->
+          <a class="btn btn-primary float-right"  href="{{=URL('default', 'edit_item', args=[record.id, '%s_%s' % ('item', record.id)] )}}" role="button">Edit</a>
+          <!-- delete button -->
+          <a class="btn btn-primary float-right"  href="{{=URL('default', 'delete_item', args=[record.id] )}}" role="button">Delete</a>
+
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-8">
+      <div class="row">
+        <div id="log_form" class="logs">
+          {{=LOAD('default', 'log_form.load', args=record.id, ajax=True, target='log_form', vars={'reload_div':'log_journal'})}}
+        </div>
+      </div>
+      <div class="row">
+        <div id="log_journal" class="logs journal">
+          {{=LOAD('default', 'log_journal.load', args=record.id, ajax=True, target='log_journal')}}
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

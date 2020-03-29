@@ -1,0 +1,171 @@
+{{extend 'layout.html'}}
+
+<div class="row">
+  <div class="col">
+    <!-- accordion class collapse page -->
+    <ul class="list-group list-group-flush ">
+      <!-- items which have no parents -->
+      {{for item in data:}}
+        {{if item['level'] == 0:}}
+          <h3  id="{{=item['id']}}" class="topic collapse {{=item['level']}} show">
+            <button  id="bu_{{=item['id']}}" class="btn btn-circle btn-sm " onclick="expand({{=item['id']}}, {{=item['level']}}, this.id)">-</button>
+            <a href="{{=URL('default', 'item', args=item['id'] )}}">{{=item['name']}}</a>
+            {{=I('(%s)' % item['children'])}}
+            <small>/</small>
+            <a href="#" onclick="newItem({{=item['id']}})"><small>  add</small></a>
+            <!-- Progress bar -->
+            {{if item['sum_w']>0:}}
+              <div class="progress topic-bar">
+                <div class="progress-bar bg-danger" role="progressbar" style="width: {{=item['not_started']/item['sum_w']*100}}%" >{{=item['not_started']}}</div>
+                <div class="progress-bar bg-warning" role="progressbar" style="width: {{=item['hold']/item['sum_w']*100}}%" >{{=item['hold']}}</div>
+                <div class="progress-bar bg-success" role="progressbar" style="width: {{=item['track']/item['sum_w']*100}}%" >{{=item['track']}}</div>
+                <div class="progress-bar bg-info" role="progressbar" style="width: {{=item['done']/item['sum_w']*100}}%" >{{=item['done']}}</div>
+              </div>
+            {{pass}}
+          </h3>
+        <!-- items with parents -->
+        {{else:}}
+          <div  id="{{=item['id']}}" class="collapse {{=item['level']}}  show item item-hover {{='index_%s' % (status[item['status']]) }}" >
+            <div class="row">
+              <div class="col-sm {{='topic%s' % item['level']}}">
+                <!-- Adds a button to unfold if it has sub items -->
+                {{if item['children']>0 :}}
+                  <button id="bu_{{=item['id']}}" class="btn btn-circle btn-sm" onclick="expand({{=item['id']}}, {{=item['level']}}, this.id)">+</button>
+                {{pass}}
+                <a >{{=B(item['name'])}} </a>
+                {{=I('(%s)' % item['children']) if item['children'] != 0 else ''}}
+              </div>
+              <div class="col-sm-2">
+                <button  class="btn btn-light btn-sm btn-expand" onclick="newItem({{=item['id']}})">add</button>
+                <a class="btn btn-light btn-sm btn-expand" href="{{=URL('default', 'item', args=item['id'] )}}">view</a>
+                <!-- <a class="btn btn-light btn-sm btn-expand" href="{{=URL('default', 'edit_item', args=[item['id'], 'index'] )}}">edit</a> -->
+                <!-- <a class="btn btn-warning btn-sm btn-expand" href="{{=URL('default', 'delete_item', args=item['id'] )}}">delete</a> -->
+              </div>
+              <div class="col-sm-5">
+                {{=I('%s' % item['log']) if item['log'] != '' else ''}}
+              </div>
+              <div class="col-sm-3">
+                {{=item['last'] if item['log'] != '' else ''}}
+              </div>
+            </div>
+          </div>
+        {{pass}}
+    {{pass}}
+    </ul>
+  </div>
+</div>
+
+<h3 class="topic">Completed tasks</h3>
+{{for item in archive:}}
+  <div  id="{{=item['id']}}" class="{{=item['level']}}  show item item-hover  {{='index_%s' % (status[item['status']]) }}" >
+    <div class="row archive archive-hover">
+      <div class="col-sm topic1 ">
+        <!-- Adds a button to unfold if it has sub items -->
+        {{if item['children']>0:}}
+          <button  class="btn btn-circle btn-sm" onclick="expand({{=item['id']}}, {{=item['level']}})">+</button>
+        {{pass}}
+        <a >{{=B(item['name'])}} </a>
+        {{=I('(%s)' % item['children']) if item['children'] != 0 else ''}}
+      </div>
+      <div class="col-sm-2">
+        <button  class="btn btn-light btn-sm btn-expand" onclick="newItem({{=item['id']}})">add</button>
+        <a class="btn btn-light btn-sm btn-expand" href="{{=URL('default', 'item', args=item['id'] )}}">view</a>
+        <!-- <a class="btn btn-light btn-sm btn-expand" href="{{=URL('default', 'edit_item', args=[item['id'], 'index'] )}}">edit</a> -->
+        <!-- <a class="btn btn-warning btn-sm btn-expand" href="{{=URL('default', 'delete_item', args=item['id'] )}}">delete</a> -->
+      </div>
+      <div class="col-sm-5">
+        {{=I('%s' % item['log']) if item['log'] != '' else ''}}
+      </div>
+      <div class="col-sm-3">
+
+      </div>
+    </div>
+  </div>
+{{pass}}
+
+<!-- Modal to add items -->
+<div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add item</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div id="new_form" class="logs journal">
+          {{=LOAD('default', 'new_item.load', args=1, ajax=True, target='new_form')}}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+  // document ready actions
+  $( document ).ready(function() {
+
+  });
+
+  // when clicking on an item
+  function expand(id, level, bu) {
+    origin = level;
+    level = level+1;
+    // if item needs to be collapsed
+    if (nextHasclass(id, "show") == true) {
+      $('#'+bu)[0].textContent="+";
+      while (nextHasclass(id, origin) == false) {
+        // fetches next element id
+        id = $('#'+id).next()[0].id;
+        // expands items with the right level (item clicked level + 1)
+        if (hasClass(id, origin) == false && hasClass(id, 0) == false){
+          if (hasClass(id, "show") == true) {
+            $('#'+id).collapse('toggle');
+          }
+        } else {
+          break;
+        }
+      }
+    } else { // if item needs to be expanded
+      $('#'+bu)[0].textContent="-";
+      while (nextHasclass(id, origin) == false) {
+        // fetches next element id
+        id = $('#'+id).next()[0].id;
+        // expands items with the right level (item clicked level + 1)
+        if (hasClass(id, level) == true){
+          $('#'+id).collapse('toggle');
+        }
+      }
+    }
+  }
+
+    // verifies if an item with a given id has a specified class
+    function hasClass(id, className) {
+      if ($('#'+id)[0].className.split(" ").includes(String(className)) == true) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+    // verifies if the item after id has a specified class
+    function nextHasclass(id, className) {
+      if ($('#'+id).next()[0].className.split(" ").includes(String(className)) == true) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+    // modal form show and pre-fill
+    function newItem(id) {
+      // sets the new item parent field
+      $('#new_item_parent')[0].value = id; // defined in "new_item.load"
+      $('#formModal').modal('toggle')
+    }
+
+
+</script>

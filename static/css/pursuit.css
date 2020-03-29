@@ -1,0 +1,88 @@
+.topic {
+  border-bottom: solid 1px #e6e6e6;
+}
+
+.topic1 {margin-left: 1em;}
+.topic2 {margin-left: 2em;}
+.topic3 {margin-left: 3em;}
+.topic4 {margin-left: 4em;}
+.topic5 {margin-left: 5em;}
+.topic6 {margin-left: 6em;}
+
+.topic-bar {
+  position: relative  ;
+  margin-bottom: 10px;
+  left: 85%;
+  width: 15%;
+  height: 1em;
+}
+
+.item-hover:hover {background-color: #f1f5f9; TEXT-DECORATION: none; font-weight: none; }
+.item {position:relative;}
+.btn-expand {
+  opacity: 0;
+  transition: opacity .5s ease;
+}
+
+.btn-bar {
+  display: none;
+  opacity: 0;
+  transition: opacity .5s ease;
+}
+
+.collapse:hover .btn-expand {
+    opacity: 1;
+}
+
+.collapse:hover .btn-bar {
+    display: block;
+    opacity: 1;
+}
+
+.btn-circle {
+  width: 19px;
+  height: 19px;
+  text-align: center;
+  padding: 1px 0px 4px 1px;
+  font-size: 13px;
+  line-height: 0.1;
+  border-radius: 30px;
+}
+
+.dot {
+  height: 15px;
+  width: 15px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.not_started {  background-color: #dc3545;}
+.hold {  background-color: #ffc107;}
+.track {  background-color: #5cb85c;}
+.done {background-color: #17a2b8;}
+
+.card_not_started { border-top-width:0.25em; border-top-color:#dc3545;}
+.card_hold { border-top-width:0.25em; border-top-color: #ffc107;}
+.card_track { border-top-width:0.25em; border-top-color: #5cb85c;}
+.card_done {border-top-width:0.25em; border-top-color: #17a2b8;}
+
+.index_not_started:before {border-left: solid; border-left-width:0.25em; border-left-color:#dc3545;}
+.index_hold:before {border-left: solid; border-left-width:0.25em; border-left-color: #ffc107;}
+.index_track:before {border-left: solid; border-left-width:0.25em; border-left-color: #5cb85c;}
+.index_done:before {border-left: solid; border-left-width:0.25em; border-left-color: #17a2b8;}
+
+.item:before {
+  content : "";
+  position: absolute;
+  left    : 0;
+  bottom  : 3px;
+  height  : 80%;
+  width   : 50%;  /* or 100px */
+}
+
+.item-comment {height:110px;}
+.item-comment-submit {margin-top:0.75em;}
+.logs {width:100%;}
+.journal {margin-top: 1em;}
+.archive{color:lightgray;}
+.archive-hover:hover{color:black;}

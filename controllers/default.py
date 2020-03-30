@@ -43,6 +43,8 @@ def index():
             if log != None :
                 child['log'] = log.body[:75]+'...' if len(log.body) > 75 else log.body
                 child['last'] = get_status(log.created_on)
+            else:
+                child['log'] = ''
             # skips items that are done or insert them in the final structure
             if child['status'] != 4:
                 entries_list.insert(index,child)
@@ -53,8 +55,6 @@ def index():
                 entries_id.append(item)
             next_id = []
             level+=1
-
-    pprint(archive)
 
     return dict(data=entries_list, status=status, archive=archive)
 

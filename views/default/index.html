@@ -20,7 +20,6 @@
           <h3  id="{{=item['id']}}" class="topic collapse {{=item['level']}} show">
             <button  id="bu_{{=item['id']}}" class="btn btn-circle btn-sm " onclick="expand({{=item['id']}}, {{=item['level']}}, this.id)">-</button>
             <a href="{{=URL('default', 'item', args=item['id'] )}}">{{=item['name']}}</a>
-            {{=I('(%s)' % item['children'])}}
             <small>/</small>
             <a href="#" onclick="newItem({{=item['id']}})"><small>  add</small></a>
             <!-- Progress bar -->

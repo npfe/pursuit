@@ -156,7 +156,6 @@ def edit_item():
     db.entry.status.readable = db.entry.status.writable = False
     form = SQLFORM(db.entry, entry)
     if form.process().accepted:
-        print(URL(redirection))
         redirect(URL( redirection))
     return locals()
 

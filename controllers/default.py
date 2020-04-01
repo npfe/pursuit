@@ -55,7 +55,6 @@ def index():
                 entries_id.append(item)
             next_id = []
             level+=1
-
     return dict(data=entries_list, status=status, archive=archive)
 
 def get_w_progress(name, id):
@@ -156,7 +155,6 @@ def edit_item():
     db.entry.status.readable = db.entry.status.writable = False
     form = SQLFORM(db.entry, entry)
     if form.process().accepted:
-        print(URL(redirection))
         redirect(URL( redirection))
     return locals()
 
@@ -164,7 +162,9 @@ def delete_item():
     entry = request.args(0)
     form = FORM.confirm('Yes', {'Back':URL('index')})
     if form.accepted:
-        print('deleted')
+        db(db.entry.id==entry).delete()
+        session.flash = "entry deleted"
+        redirect(URL('default', 'index'))
     return locals()
 
 def set_status():

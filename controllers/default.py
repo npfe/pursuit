@@ -55,7 +55,6 @@ def index():
                 entries_id.append(item)
             next_id = []
             level+=1
-
     return dict(data=entries_list, status=status, archive=archive)
 
 def get_w_progress(name, id):

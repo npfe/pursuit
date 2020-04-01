@@ -36,7 +36,7 @@
         {{else:}}
           <div  id="{{=item['id']}}" class="collapse {{=item['level']}}  show item item-hover {{='index_%s' % (status[item['status']]) }}" >
             <div class="row">
-              <div class="col-sm {{='topic%s' % item['level']}}">
+              <div class="col-sm-4 {{='topic%s' % item['level']}}">
                 <!-- Adds a button to unfold if it has sub items -->
                 {{if item['children']>0 :}}
                   <button id="bu_{{=item['id']}}" class="btn btn-circle btn-sm" onclick="expand({{=item['id']}}, {{=item['level']}}, this.id)">+</button>
@@ -44,7 +44,7 @@
                 <a >{{=B(item['name'])}} </a>
                 {{=I('(%s)' % item['children']) if item['children'] != 0 else ''}}
               </div>
-              <div class="col-sm-2">
+              <div class="col-sm-1">
                 <button  class="btn btn-light btn-sm btn-expand" onclick="newItem({{=item['id']}})">add</button>
                 <a class="btn btn-light btn-sm btn-expand" href="{{=URL('default', 'item', args=item['id'] )}}">view</a>
                 <!-- <a class="btn btn-light btn-sm btn-expand" href="{{=URL('default', 'edit_item', args=[item['id'], 'index'] )}}">edit</a> -->
@@ -53,7 +53,7 @@
               <div class="col-sm-5">
                 {{=I('%s' % item['log']) if item['log'] != '' else ''}}
               </div>
-              <div class="col-sm-3">
+              <div class="col-sm-1">
                 {{=item['last'] if item['log'] != '' else ''}}
               </div>
             </div>

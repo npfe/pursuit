@@ -162,7 +162,9 @@ def delete_item():
     entry = request.args(0)
     form = FORM.confirm('Yes', {'Back':URL('index')})
     if form.accepted:
-        print('deleted')
+        db(db.entry.id==entry).delete()
+        session.flash = "entry deleted"
+        redirect(URL('default', 'index'))
     return locals()
 
 def set_status():

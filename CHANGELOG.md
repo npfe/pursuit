@@ -3,6 +3,9 @@ V0.2
 enhancement:
 - modified width of columns in index page
 
+fixes:
+- fixed delete form
+
 hoftix-30032020
 ---------------
 fixes:

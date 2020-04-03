@@ -46,7 +46,10 @@ def index():
             # sets level of the entry back
             level = temp_level
             # counts the children of the current entry
-            child['children'] = db(db.entry.parent == child['id']).count()
+            if child['status'] != 4:
+                child['children'] = db((db.entry.parent == child['id']) & (db.entry.status != 4)).count()
+            else:
+                child['children'] = 0
             # fetches the last log of the current entry
             log = db(db.journal.parent == child['id']).select().last()
             # adds last log and last edit date

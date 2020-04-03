@@ -71,10 +71,6 @@
   <div  id="{{=item['id']}}" class="{{=item['level']}}  show item item-hover  {{='index_%s' % (status[item['status']]) }}" >
     <div class="row archive archive-hover">
       <div class="col-sm topic1 ">
-        <!-- Adds a button to unfold if it has sub items -->
-        {{if item['children']>0:}}
-          <button  class="btn btn-circle btn-sm" onclick="expand({{=item['id']}}, {{=item['level']}})">+</button>
-        {{pass}}
         <a >{{=B(item['name'])}} </a>
         {{=I('(%s)' % item['children']) if item['children'] != 0 else ''}}
       </div>

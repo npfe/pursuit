@@ -29,15 +29,25 @@ def index():
     for i, id in enumerate(entries_id):
         children = db(db.entry.parent == id).select().as_list()
         for child in children:
+            temp_level = level
             # finds the position in entries_list where to insert child
             index = next((index for (index, d) in enumerate(entries_list) if d['id']==child['parent']), None)
-            # position index to 1 after position of the parent
-            index+=1
+            # if the parent is not be displayed
+            if index == None:
+                level = 1
+                index = 1
+            else:
+                # position index to 1 after position of the parent
+                index+=1
             # append id of current child in the loop to the next list
             next_id.append(child['id'])
             # sets the entry
             child['level'] = level
+            # sets level of the entry back
+            level = temp_level
+            # counts the children of the current entry
             child['children'] = db(db.entry.parent == child['id']).count()
+            # fetches the last log of the current entry
             log = db(db.journal.parent == child['id']).select().last()
             # adds last log and last edit date
             if log != None :

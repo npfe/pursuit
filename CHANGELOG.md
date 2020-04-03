@@ -1,3 +1,9 @@
+hotfix-03042020
+---------------
+fixes:
+- width of the columns on index page
+- crashes when a parent is set to done and not the children on index
+
 V0.2
 ----
 enhancement:

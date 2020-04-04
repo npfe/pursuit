@@ -130,6 +130,8 @@ def item():
     item = request.args(0)
     status = {1:'not_started', 2:'hold', 3:'track', 4:'done'}
     record = db.entry[item]
+    parent = db.entry[record.parent]
+    children = db(db.entry.parent == record.id).select()
     return locals()
 
 def new_item():

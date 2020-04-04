@@ -1,11 +1,18 @@
+{{extend 'layout.html'}}
+
+{{import datetime}}
+
 {{for log in logs:}}
   <div class="card journal">
     <div class="card-body">
+      <!-- delete button cross -->
       <button type="button" onclick="delLog({{='%s,%s' % (log.id, '\"log_journal\"')}})" class="close" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
+      <!-- body of the comment -->
       <p class="card-text">{{=log.body}}</p>
-      <p class="card-text "><small class="text-muted">{{=I(log.created_on)}}</small></p>
+      <!-- date time of the log -->
+      <p class="card-text "><small class="text-muted">{{=I(log.created_on.strftime("%Y-%b-%d %H:%M:%S"))}}</small></p>
     </div>
 
   </div>

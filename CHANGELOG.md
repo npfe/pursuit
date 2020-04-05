@@ -5,7 +5,6 @@ enhancements:
 - navigation card on item pages
 - better readme.md
 
-=======
 hotfix-03042020
 ---------------
 fixes:

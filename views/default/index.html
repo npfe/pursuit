@@ -47,8 +47,6 @@
               <div class="col-sm-1">
                 <button  class="btn btn-light btn-sm btn-expand" onclick="newItem({{=item['id']}})">add</button>
                 <a class="btn btn-light btn-sm btn-expand" href="{{=URL('default', 'item', args=item['id'] )}}">view</a>
-                <!-- <a class="btn btn-light btn-sm btn-expand" href="{{=URL('default', 'edit_item', args=[item['id'], 'index'] )}}">edit</a> -->
-                <!-- <a class="btn btn-warning btn-sm btn-expand" href="{{=URL('default', 'delete_item', args=item['id'] )}}">delete</a> -->
               </div>
               <div class="col-sm-5">
                 {{=I('%s' % item['log']) if item['log'] != '' else ''}}

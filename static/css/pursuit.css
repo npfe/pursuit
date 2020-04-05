@@ -88,3 +88,8 @@
 .journal {margin-top: 1em;}
 .archive{color:lightgray;}
 .archive-hover:hover{color:black;}
+.nav-card {margin-top:1em;}
+
+/* logs */
+.dropdown-toggle:after { content: none }
+.btn-log { color:rgba(0,0,0,.125) ; border-color:rgba(0,0,0,.125) ; }

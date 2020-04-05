@@ -143,6 +143,8 @@ def item():
     item = request.args(0)
     status = {1:'not_started', 2:'hold', 3:'track', 4:'done'}
     record = db.entry[item]
+    parent = db.entry[record.parent]
+    children = db(db.entry.parent == record.id).select()
     return locals()
 
 def new_item():
@@ -210,6 +212,18 @@ def log_delete():
     db(db.journal.id == record).delete()
     response.js = "jQuery('#%s').get(0).reload()" % request.args(1)
     response.flash=('Log deleted')
+
+def log_edit():
+    record = db.journal(request.args(0))
+    db.journal.id.readable = db.journal.id.writable = False
+    db.journal.parent.readable = db.journal.parent.writable = False
+    db.journal.created_on.readable = db.journal.created_on.writable = False
+    form = SQLFORM(db.journal, record)
+    if form.process().accepted:
+        response.js = "jQuery('#log_journal').get(0).reload(); "
+        response.js += "$('body').removeClass('modal-open'); "
+        response.js += "$('.modal-backdrop').remove(); "
+    return dict(form=form)
 
 # ---- action to server uploaded static content (required) ---
 @cache.action()

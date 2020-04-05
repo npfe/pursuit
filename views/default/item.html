@@ -2,6 +2,7 @@
 <div class="container">
   <div class="row">
     <div class="col-sm-4">
+      <!-- item controls card -->
       <div class="card {{='card_%s' % (status[record.status]) }}">
         <div class="card-body">
           <h5 class="card-title">{{=record.name}}</h5>
@@ -27,6 +28,26 @@
           <!-- delete button -->
           <a class="btn btn-primary float-right item-btn"  href="{{=URL('default', 'delete_item', args=[record.id] )}}" role="button">Delete</a>
 
+        </div>
+      </div>
+      <!-- navigation card -->
+      <div class="card nav-card">
+        <div class="card-body">
+          <!-- parent link if item has a parent -->
+          {{if parent:}}
+            <h5>Parent</h5>
+            <p><a href='{{=URL('default', 'item', args=parent.id)}}'>{{=parent.name}}</a></p>
+          {{pass}}
+          <!-- children link if item has children -->
+          <h5>Children</h5>
+          <!-- if not children displays text -->
+          {{if len(children) > 0:}}
+            {{for child in children:}}
+              <p><a href='{{=URL('default', 'item', args=child.id)}}'>{{=child.name}}</a></p>
+            {{pass}}
+          {{else:}}
+              <p><a>No children</a></p>
+          {{pass}}
         </div>
       </div>
     </div>

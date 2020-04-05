@@ -1,5 +1,10 @@
 V0.3
 ----
+enhancements:
+- fixed the logs
+- navigation card on item pages
+- better readme.md
+
 
 V0.2
 ----

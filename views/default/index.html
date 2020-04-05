@@ -34,12 +34,12 @@
           </h3>
         <!-- items with parents -->
         {{else:}}
-          <div  id="{{=item['id']}}" class="collapse {{=item['level']}}  show item item-hover {{='index_%s' % (status[item['status']]) }}" >
+          <div  id="{{=item['id']}}" class="collapse {{='--%s--' % item['level']}}  show item item-hover {{='index_%s' % (status[item['status']]) }}" >
             <div class="row">
               <div class="col-sm {{='topic%s' % item['level']}}">
                 <!-- Adds a button to unfold if it has sub items -->
                 {{if item['children']>0 :}}
-                  <button id="bu_{{=item['id']}}" class="btn btn-circle btn-sm" onclick="expand({{=item['id']}}, {{=item['level']}}, this.id)">+</button>
+                  <button id="bu_{{=item['id']}}" class="btn btn-circle btn-sm" onclick="expand({{=item['id']}}, {{=item['level']}}, this.id)">-</button>
                 {{pass}}
                 <a >{{=B(item['name'])}} </a>
                 {{=I('(%s)' % item['children']) if item['children'] != 0 else ''}}
@@ -115,20 +115,46 @@
 
   });
 
+  // key down detection for control+click
+  $(document).keydown(function(event){
+    if(event.which=="17")
+        cntrlIsPressed = true;
+    });
+
+  // key up, clears up ctrl, for control+click
+  $(document).keyup(function(){
+      cntrlIsPressed = false;
+  });
+
+  // status of control key (pressed true or up false)
+  var cntrlIsPressed = false;
+
   // when clicking on an item
   function expand(id, level, bu) {
     origin = level;
     level = level+1;
+    level = "--"+level+"--";
     // if item needs to be collapsed
     if (nextHasclass(id, "show") == true) {
       $('#'+bu)[0].textContent="+";
       while (nextHasclass(id, origin) == false) {
         // fetches next element id
         id = $('#'+id).next()[0].id;
-        // expands items with the right level (item clicked level + 1)
+        // collapses items with the right level
         if (hasClass(id, origin) == false && hasClass(id, 0) == false){
           if (hasClass(id, "show") == true) {
-            $('#'+id).collapse('toggle');
+            // verifies that the item's class is not smaller than origin
+            loClass = getClass(id);
+            if (loClass > origin)
+            {
+              $('#'+id).collapse('toggle');
+              if($('#bu_'+id).length){
+              	$('#bu_'+id)[0].textContent="+";
+              }
+            }
+            else {
+              break;
+            }
           }
         } else {
           break;
@@ -137,11 +163,27 @@
     } else { // if item needs to be expanded
       $('#'+bu)[0].textContent="-";
       while (nextHasclass(id, origin) == false) {
-        // fetches next element id
-        id = $('#'+id).next()[0].id;
+        id = $('#'+id).next()[0].id;    // gets next id
+        loClass = getClass(id);         // gets class of next id
         // expands items with the right level (item clicked level + 1)
-        if (hasClass(id, level) == true){
-          $('#'+id).collapse('toggle');
+        if (cntrlIsPressed == true){
+          if (loClass > origin){
+            $('#'+id).collapse('toggle');
+            if($('#bu_'+id).length){
+              $('#bu_'+id)[0].textContent="-";
+            }
+          } else {
+            break;
+          }
+        } else {
+          if (loClass > origin){
+            $('#'+id).collapse('show');
+          }
+          // if the next class 
+          if (nextHasclass(id, "--"+loClass+"--") == false) {
+            break;
+          }
+
         }
       }
     }
@@ -158,11 +200,19 @@
 
     // verifies if the item after id has a specified class
     function nextHasclass(id, className) {
-      if ($('#'+id).next()[0].className.split(" ").includes(String(className)) == true) {
+      if ($('#'+id).next().length == 0) {
+        return true;
+      } else if ($('#'+id).next()[0].className.split(" ").includes(String(className)) == true) {
         return true;
       } else {
         return false;
       }
+    }
+
+    // gets the class of an item
+    function getClass(id) {
+      // parses the array of classes to find one that starts with 'level'
+      return $('#'+id)[0].className.split("--")[1];
     }
 
     // modal form show and pre-fill

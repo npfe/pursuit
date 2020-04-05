@@ -32,11 +32,12 @@ def index():
             temp_level = level
             # finds the position in entries_list where to insert child
             index = next((index for (index, d) in enumerate(entries_list) if d['id']==child['parent']), None)
-            # if the parent is not be displayed
+            # if the parent is not be displayed (e.g. parent status is done)
             if index == None:
-                level = 1
-                index = 1
+                level = 1       # item level is set to 1
+                index = 1       # item to be shown on top
             else:
+                level = entries_list[index]['level']+1
                 # position index to 1 after position of the parent
                 index+=1
             # append id of current child in the loop to the next list

@@ -1,7 +1,9 @@
 V0.3.1
 ------
 enhancements:
-- top items on index page color 
+- top items on index page color
+- can click on items on index page
+- removed view button on index page items 
 
 V0.3
 ----

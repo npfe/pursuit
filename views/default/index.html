@@ -19,9 +19,9 @@
         {{if item['level'] == 0:}}
           <h3  id="{{=item['id']}}" class="topic collapse {{=item['level']}} show">
             <button  id="bu_{{=item['id']}}" class="btn btn-circle btn-sm " onclick="expand({{=item['id']}}, {{=item['level']}}, this.id)">-</button>
-            <a class="topic-name" href="{{=URL('default', 'item', args=item['id'] )}}">{{=item['name']}}</a>
+            <a class="less-link" href="{{=URL('default', 'item', args=item['id'] )}}">{{=item['name']}}</a>
             <small>/</small>
-            <a class="topic-name" href="#" onclick="newItem({{=item['id']}})"><small>  add</small></a>
+            <a class="less-link" href="#" onclick="newItem({{=item['id']}})"><small>  add</small></a>
             <!-- Progress bar -->
             {{if item['sum_w']>0:}}
               <div class="progress topic-bar">
@@ -41,12 +41,11 @@
                 {{if item['children']>0 :}}
                   <button id="bu_{{=item['id']}}" class="btn btn-circle btn-sm" onclick="expand({{=item['id']}}, {{=item['level']}}, this.id)">+</button>
                 {{pass}}
-                <a >{{=B(item['name'])}} </a>
+                <a class="less-link" href="{{=URL('default', 'item', args=item['id'])}}">{{=B(item['name'])}} </a>
                 {{=I('(%s)' % item['children']) if item['children'] != 0 else ''}}
               </div>
               <div class="col-sm-1">
                 <button  class="btn btn-light btn-sm btn-expand" onclick="newItem({{=item['id']}})">add</button>
-                <a class="btn btn-light btn-sm btn-expand" href="{{=URL('default', 'item', args=item['id'] )}}">view</a>
               </div>
               <div class="col-sm-5">
                 {{=I('%s' % item['log']) if item['log'] != '' else ''}}

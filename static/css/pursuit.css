@@ -27,8 +27,8 @@
 .index_done:before {border: solid; border-width:0.18em; border-color: #17a2b8; border-radius:2em;}
 
 /* index page */
-.topic-name { color:black;}
-.topic-name:hover { color:black; text-decoration: none;}
+.less-link { color:black;}
+.less-link:hover { color:black; text-decoration: none;}
 
 .topic { border-bottom: solid 1px #e6e6e6; }
 

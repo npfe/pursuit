@@ -1,0 +1,5 @@
+/* this rule applies only to index page, for this reason it is
+   separated from the rest of the css rules
+*/
+
+p{ margin-bottom: 0; margin-top: 4px;}

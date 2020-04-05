@@ -1,8 +1,9 @@
+{{response.files.append(URL('static', 'css/pursuit_index.css'))}}
 {{extend 'layout.html'}}
 <div class="row">
   <div class="col">
     <!-- new items button -->
-    <button class="btn btn-primary pull-right"  onclick="newItem()" type="submit">New Top Item</button>
+    <button class="btn btn-primary btn-outline-secondary pull-right"  onclick="newItem()" type="submit">New Top Item</button>
   </div>
 </div>
 
@@ -19,9 +20,9 @@
         {{if item['level'] == 0:}}
           <h3  id="{{=item['id']}}" class="topic collapse {{=item['level']}} show">
             <button  id="bu_{{=item['id']}}" class="btn btn-circle btn-sm " onclick="expand({{=item['id']}}, {{=item['level']}}, this.id)">-</button>
-            <a href="{{=URL('default', 'item', args=item['id'] )}}">{{=item['name']}}</a>
+            <a class="less-link" href="{{=URL('default', 'item', args=item['id'] )}}">{{=item['name']}}</a>
             <small>/</small>
-            <a href="#" onclick="newItem({{=item['id']}})"><small>  add</small></a>
+            <a class="less-link" href="#" onclick="newItem({{=item['id']}})"><small>  add</small></a>
             <!-- Progress bar -->
             {{if item['sum_w']>0:}}
               <div class="progress topic-bar">
@@ -41,15 +42,14 @@
                 {{if item['children']>0 :}}
                   <button id="bu_{{=item['id']}}" class="btn btn-circle btn-sm" onclick="expand({{=item['id']}}, {{=item['level']}}, this.id)">-</button>
                 {{pass}}
-                <a >{{=B(item['name'])}} </a>
+                <a class="less-link" href="{{=URL('default', 'item', args=item['id'])}}">{{=B(item['name'])}} </a>
                 {{=I('(%s)' % item['children']) if item['children'] != 0 else ''}}
               </div>
               <div class="col-sm-1">
                 <button  class="btn btn-light btn-sm btn-expand" onclick="newItem({{=item['id']}})">add</button>
-                <a class="btn btn-light btn-sm btn-expand" href="{{=URL('default', 'item', args=item['id'] )}}">view</a>
               </div>
               <div class="col-sm-5">
-                {{=I('%s' % item['log']) if item['log'] != '' else ''}}
+                {{=I(MARKMIN('%s' % item['log']), _class="test") if item['log'] != '' else ''}}
               </div>
               <div class="col-sm-1">
                 {{=item['last'] if item['log'] != '' else ''}}

@@ -1,3 +1,11 @@
+V0.3.1
+------
+enhancements:
+- top items on index page color
+- can click on items on index page
+- removed view button on index page items
+- changed CSS or new top item button to wireframe
+
 V0.3
 ----
 enhancements:

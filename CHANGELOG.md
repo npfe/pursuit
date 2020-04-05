@@ -1,3 +1,8 @@
+V0.3.1
+------
+enhancements:
+- top items on index page color 
+
 V0.3
 ----
 enhancements:

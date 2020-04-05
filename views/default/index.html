@@ -19,9 +19,9 @@
         {{if item['level'] == 0:}}
           <h3  id="{{=item['id']}}" class="topic collapse {{=item['level']}} show">
             <button  id="bu_{{=item['id']}}" class="btn btn-circle btn-sm " onclick="expand({{=item['id']}}, {{=item['level']}}, this.id)">-</button>
-            <a href="{{=URL('default', 'item', args=item['id'] )}}">{{=item['name']}}</a>
+            <a class="topic-name" href="{{=URL('default', 'item', args=item['id'] )}}">{{=item['name']}}</a>
             <small>/</small>
-            <a href="#" onclick="newItem({{=item['id']}})"><small>  add</small></a>
+            <a class="topic-name" href="#" onclick="newItem({{=item['id']}})"><small>  add</small></a>
             <!-- Progress bar -->
             {{if item['sum_w']>0:}}
               <div class="progress topic-bar">

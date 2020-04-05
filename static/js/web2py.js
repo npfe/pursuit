@@ -480,6 +480,8 @@
                     web2py.ajax_page('get', action, null, target, el);
                 }
             });
+            /* flag to indicate the function is done */
+            return true;
         },
         updatePage: function (xhr, target) {
             var t = $('#' + target);
@@ -695,7 +697,7 @@
             }
             if (confirm_message) {
                 if (confirm_message == 'default') {
-                    confirm_message = !web2py.isUndefined(w2p_ajax_confirm_message) ?  
+                    confirm_message = !web2py.isUndefined(w2p_ajax_confirm_message) ?
                     w2p_ajax_confirm_message : 'Are you sure you want to delete this object?';
                 }
                 if (!web2py.confirm(confirm_message)) {

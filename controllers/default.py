@@ -200,6 +200,18 @@ def log_delete():
     response.js = "jQuery('#%s').get(0).reload()" % request.args(1)
     response.flash=('Log deleted')
 
+def log_edit():
+    record = db.journal(request.args(0))
+    db.journal.id.readable = db.journal.id.writable = False
+    db.journal.parent.readable = db.journal.parent.writable = False
+    db.journal.created_on.readable = db.journal.created_on.writable = False
+    form = SQLFORM(db.journal, record)
+    if form.process().accepted:
+        response.js = "jQuery('#log_journal').get(0).reload(); "
+        response.js += "$('body').removeClass('modal-open'); "
+        response.js += "$('.modal-backdrop').remove(); "
+    return dict(form=form)
+
 # ---- action to server uploaded static content (required) ---
 @cache.action()
 def download():

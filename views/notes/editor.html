@@ -1,0 +1,45 @@
+{{extend 'layout.html'}}
+
+<div class="input-group mb-3">
+  <div class="input-group-prepend">
+    <span class="input-group-text" id="basic-addon1">Title</span>
+  </div>
+  <input type="text" class="form-control"  value='{{=title}}' id='title'>
+</div>
+<div class="row">
+  <div class="col">
+    <textarea class="form-control" id="mdInput" rows="25">{{=body}}</textarea>
+  </div>
+  <div class="col">
+    {{=(DIV(_id='preview'))}}
+  </div>
+</div>
+
+<script>
+  var converter;
+  $( document ).ready(function() {
+    converter = new showdown.Converter({emoji:true, tasklists:true});
+    body = $('#mdInput').val();
+    html = converter.makeHtml(body);
+    $('#preview')[0].innerHTML = html;
+  });
+
+  // when input is made on the edit
+  $('#mdInput').on('input', function() {
+    body = $('#mdInput').val();
+    html = converter.makeHtml(body);
+    $('#preview')[0].innerHTML = html;
+    $.get( "{{=URL('notes', 'update')}}",{body:body, note_id:{{=request.vars['note_id']}}}, function( data ) {
+
+    });
+  });
+
+  // when input is made on the title
+  $('#title').on('change', function() {
+    title = $('#title').val();
+    $.get( "{{=URL('notes', 'update_title')}}",{title:title, note_id:{{=request.vars['note_id']}}}, function( data ) {
+      
+    });
+  });
+
+</script>

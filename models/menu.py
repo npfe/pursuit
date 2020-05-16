@@ -6,7 +6,8 @@
 # ----------------------------------------------------------------------------------------------------------------------
 
 response.menu = [
-    (T('Home'), False, URL('default', 'index'), [])
+    (T('Home'), False, URL('default', 'index'), []),
+    (T('Notes'), False, URL('notes', 'overview'), []),
 ]
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -107,4 +108,3 @@ if not configuration.get('app.production'):
              'http://webchat.freenode.net/?channels=web2py'),
         ]),
     ]
-

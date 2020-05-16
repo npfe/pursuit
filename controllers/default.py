@@ -146,6 +146,7 @@ def item():
     record = db.entry[item]
     parent = db.entry[record.parent]
     children = db(db.entry.parent == record.id).select()
+    notes = db(db.notes.parent == item).select(db.notes.id, db.notes.title, db.notes.modified_on)
     return locals()
 
 def new_item():

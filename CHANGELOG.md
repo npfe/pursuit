@@ -1,3 +1,8 @@
+V0.3.2
+------
+enhancements:
+- added markdown notes support
+
 V0.3.1
 ------
 enhancements:

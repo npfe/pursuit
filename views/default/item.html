@@ -30,6 +30,18 @@
 
         </div>
       </div>
+      <!-- Notes card -->
+      <div class="card nav-card">
+        <div class="card-body">
+          <h5 class="d-inline-block card-title">Notes</h5>
+          <!-- New note button -->
+          <a class="btn btn-primary float-right item-btn"  href="{{=URL('notes', 'new', vars={'parent':record.id} )}}" role="button">New</a>
+          {{for row in notes:}}
+            <h6>{{=A(row.title, _href=URL('notes', 'editor', vars={'note_id':row.id}))}} <h6>
+            <h7>{{=row.modified_on}} </h7>
+          {{pass}}
+        </div>
+      </div>
       <!-- navigation card -->
       <div class="card nav-card">
         <div class="card-body">

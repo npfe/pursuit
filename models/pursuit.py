@@ -9,3 +9,10 @@ db.define_table('journal',
                 Field('parent', 'integer', requires=IS_IN_DB(db, db.entry.id)),
                 Field('body', 'text'),
                 Field('created_on', 'datetime', default=request.now, requires=IS_NOT_EMPTY()))
+
+db.define_table('notes',
+                Field('parent', 'integer', requires=IS_IN_DB(db, db.entry.id)),
+                Field('body', 'text'),
+                Field('created_on', 'datetime', default=request.now, requires=IS_NOT_EMPTY()),
+                Field('modified_on', 'datetime'),
+                Field('title', 'string'))

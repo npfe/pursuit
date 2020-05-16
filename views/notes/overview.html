@@ -1,0 +1,33 @@
+{{extend 'layout.html'}}
+
+{{=A('New', _class='btn btn-secondary', _href=URL('notes', 'new'))}}
+
+
+<div class='row'>
+  <div class='col-sm-3'>
+        {{for row in rows:}}
+          <h5>{{=A(row.title, _href=URL('notes', 'editor', vars={'note_id':row.id}))}} <h5>
+          <h6>{{=row.modified_on}} // <a href='#' onclick = 'previewNote({{=row.id}})'>preview</a></h6>
+        {{pass}}
+  </div>
+  <div class='col-sm-9'>
+    {{=(DIV(_id='preview'))}}
+  </div>
+</div>
+
+<script>
+  var converter;
+  $( document ).ready(function() {
+    console.log( "ready!" );
+    converter = new showdown.Converter({emoji:true, tasklists:true});
+  });
+
+  // to preview a note on the right pannel
+  function previewNote(id) {
+    $.get( "{{=URL('notes', 'preview')}}",{note_id:id}, function( data ) {
+      html = converter.makeHtml(data);
+      $('#preview')[0].innerHTML = html;
+    });
+  }
+
+</script>
